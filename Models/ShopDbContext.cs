@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Internet_Shop.Models;
 
-public partial class ShopContext : DbContext
+public partial class ShopDbContext : DbContext
 {
-    public ShopContext()
+    public ShopDbContext()
     {
     }
 
-    public ShopContext(DbContextOptions<ShopContext> options)
+    public ShopDbContext(DbContextOptions<ShopDbContext> options)
         : base(options)
     {
     }
@@ -24,8 +24,18 @@ public partial class ShopContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=postgres");
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            var connectionString = config.GetConnectionString("DefaultConnection");
+            optionsBuilder.UseNpgsql(connectionString);
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
