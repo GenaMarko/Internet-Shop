@@ -5,37 +5,37 @@ namespace Internet_Shop.Services
 {
     public class UserService : IUserService
     {
-        private readonly ShopDbContext _shopContext;
+        private readonly ShopDbContext _context;
 
         public UserService(ShopDbContext context)
         {
-            _shopContext = context;
+            _context = context;
         }
 
         public async Task<User?> CreateAsync(User user)
         {
             user.CreatedAt = DateTime.UtcNow;
 
-            _shopContext.Users.Add(user);
+            _context.Users.Add(user);
 
-            await _shopContext.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return user;
         }
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {
-            return await _shopContext.Users.ToListAsync();
+            return await _context.Users.ToListAsync();
         }
 
         public async Task<User?> GetByIdAsync(int id)
         {
-            return await _shopContext.Users.FindAsync(id);
+            return await _context.Users.FindAsync(id);
         }
 
         public async Task<User?> UpdateAsync(int id, User updatedUser)
         {
-            var existing = await _shopContext.Users.FindAsync(id);
+            var existing = await _context.Users.FindAsync(id);
 
             if (existing == null) return null;
 
@@ -43,7 +43,7 @@ namespace Internet_Shop.Services
             existing.Email = updatedUser.Email;
             existing.Password = updatedUser.Password;
 
-            await _shopContext.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return existing;
 
@@ -51,16 +51,16 @@ namespace Internet_Shop.Services
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var user = await _shopContext.Users.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
 
             if (user == null)
             {
                 return false;
             }
 
-            _shopContext.Users.Remove(user);
+            _context.Users.Remove(user);
 
-            await _shopContext.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return true;
         }
