@@ -1,11 +1,13 @@
 ﻿using Internet_Shop.Models;
 using Internet_Shop.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Internet_Shop.Controllers
 {
     [ApiController]
     [Route("api/products")]
+    [Authorize(Roles = "Admin")]
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _service;

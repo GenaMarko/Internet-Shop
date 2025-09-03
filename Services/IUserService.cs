@@ -8,7 +8,8 @@ namespace Internet_Shop.Services
         Task<User?> GetByIdAsync(int id);
         Task<User?> CreateAsync(User user);
         Task<User?> UpdateAsync(int id,User updatedUser);
-
         Task<bool> DeleteAsync(int id);
+        Task<User?> RegisterAsync(RegisterDto dto);
+        Task<User?> ValidateUserAsync(string email, string password);
     }
 }

@@ -1,11 +1,13 @@
-﻿using Internet_Shop.Services;
-using Internet_Shop.Models;
+﻿using Internet_Shop.Models;
+using Internet_Shop.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Internet_Shop.Controllers
 {
     [ApiController]
     [Route("api/users")]
+    [Authorize(Roles = "Admin")]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _service;

@@ -13,6 +13,8 @@ public partial class User
 
     public string Password { get; set; } = null!;
 
+    public string Role { get; set; } = "User";
+
     public DateTime CreatedAt { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
